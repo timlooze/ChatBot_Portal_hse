@@ -7,7 +7,9 @@ class Finder:
     """
     Initialization of the list of texts on portal
     """
-    def __init__(self, sentence_embeddings):
+    def __init__(self):
+        from LinkGraph import LinkGraph
+        sentence_embeddings = LinkGraph.get_link_text()
         # Function from library to create SBERT word comparator
         from sentence_transformers import SentenceTransformer
         # SBERT model itself

@@ -161,10 +161,10 @@ for i in soup:
     temp = parse(i, 'Создание и редактирование сайта подразделения')
     im.objects += temp.objects
 # %%
-headers = [personalpages, helpsite, progs, poll, im]
-for i in headers:
-    for name, value in i.get_pairs():
-        print(name)
-        print(value)
-        print()
-    print()
+# headers = [personalpages, helpsite, progs, poll, im]
+# for i in headers:
+#     for name, value in i.get_pairs():
+#         print(name)
+#         print(value)
+#         print()
+#     print()

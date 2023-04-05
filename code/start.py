@@ -1,5 +1,6 @@
 class StartOfChat:
     def __init__(self):
-        from Finder import Finder
+        from finder import Finder
         compare = Finder()
 
+print('start')

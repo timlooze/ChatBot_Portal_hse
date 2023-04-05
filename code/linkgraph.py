@@ -3,7 +3,6 @@
 """
 from textparser import parse
 
-
 def get_text(link):
     import requests as rq
     from bs4 import BeautifulSoup
@@ -21,7 +20,7 @@ def get_text(link):
     else:
         soup = web.find('div', {'class': 'post__text'}).findAll('div',
                                                                 {"class": "with-indent5 _builder builder--text"})
-    soup = list(filter(lambda x: len(x.text) > 300, soup))
+    soup = list(filter(lambda x: len(x.text) > 10, soup))
     if len(soup) == 0:
         return ""
     return [parse(soup[i], link) for i in range(len(soup))]
@@ -51,12 +50,14 @@ class LinkGraph:
 
         for link in soup.find_all('a'):
             try:
-                if 'https://portal.hse' in link.get('href') and '/en' not in link.get('href'):  # англ не нужен
+                if 'portal.hse' in link.get('href') and '/en' not in link.get('href'):  # англ не нужен
                     curr_link = link.get('href')
                     if '#' in curr_link:
                         curr_link = curr_link[:curr_link.find('#')]  # убираю якорные ссылки - по сути дубли
                     if '?' in curr_link:
                         curr_link = curr_link[:curr_link.find('?')]
+                    if curr_link[4] != 's':
+                        curr_link = curr_link[:4] + 's' + curr_link[4:]
                     curr_link = curr_link.strip('/')
                     color_mass.add(curr_link)
             finally:
@@ -77,8 +78,10 @@ class LinkGraph:
 print('linkgraph')
 import json
 
-# a = LinkGraph()
-# b = a.get_link_text()
+a = LinkGraph()
+b = a.get_link_text()
+print(len(b))
+print(b)
 # %%
 # import json
 # b = {1 : 1}

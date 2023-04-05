@@ -3,7 +3,6 @@
 """
 
 
-
 def get_text(link):
     import requests as rq
     from bs4 import BeautifulSoup

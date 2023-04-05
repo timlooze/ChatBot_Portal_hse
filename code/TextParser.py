@@ -126,6 +126,8 @@ def parse(soup, text):
 
         elif tag.name in ('p', 'div', 'ul', 'ol'):
             current_header.append(Paragraph(tag))
+    if len(soup.find_all(True, recursive=False)) == 0:
+        current_h1.append(Paragraph(soup))
     return current_h1
 
 

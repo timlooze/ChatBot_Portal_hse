@@ -13,6 +13,19 @@ class Header:
             result += f'{str(i)}\n'
         return result
 
+    def p1(self):
+        res = 1
+        for i in self.objects:
+            if type(i) == Header:
+                res += i.p1()
+                break
+        if res == 1:
+            for i in self.objects:
+                if type(i) == Paragraph:
+                    res += 1
+                    break
+        return res
+
     def str_with_out_atrifacts(self):
         result = f'{self.header_text}\n'
         for i in self.objects:

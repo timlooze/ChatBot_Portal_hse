@@ -1,7 +1,8 @@
 """
 Илья автоматизируй эту функцию
 """
-from textparser import parse
+from textparser import Header
+
 
 def get_text(link):
     import requests as rq
@@ -11,10 +12,9 @@ def get_text(link):
     web = BeautifulSoup(r.text, 'html.parser')
     if link == 'https://portal.hse.ru':
         soup = web.findAll('div', {'class': 'splash_preview__descr'})
-        return [parse(soup[i], link) for i in range(len(soup))]
-    if web.find('div', {'class': 'post__text'}) is None:
+    elif web.find('div', {'class': 'post__text'}) is None:
         return []
-    if len(web.find('div', {'class': 'post__text'}).find_all('div',
+    elif len(web.find('div', {'class': 'post__text'}).find_all('div',
                                                              {"class": "with-indent5 _builder builder--text"})) == 0:
         soup = web.findAll('div', {'class': 'post__text'})
     else:
@@ -23,7 +23,12 @@ def get_text(link):
     soup = list(filter(lambda x: len(x.text) > 10, soup))
     if len(soup) == 0:
         return ""
-    return [parse(soup[i], link) for i in range(len(soup))]
+    page = [parse(soup[i], link) for i in range(len(soup))]
+    if len(page) == 1:
+        return page[0]
+    new_page = Header(page[0].header_text)
+    new_page.objects = page
+    return new_page
 
 
 class LinkGraph:
@@ -33,11 +38,8 @@ class LinkGraph:
         print('go_get_links')
         self.bs4_test('https://portal.hse.ru')
         self.link_text = {}
-        # print(self.matrix.keys())
         for i in tqdm(self.matrix.keys()):
             self.link_text[i] = get_text(i)
-            if len(self.link_text[i]) == 0:
-                del self.link_text[i]
         print(self.matrix['https://portal.hse.ru'])
 
     def bs4_test(self, url):
@@ -69,19 +71,19 @@ class LinkGraph:
 
     def get_link_text(self):
         sentences = []
-        for i in self.link_text.keys():
-            for j in self.link_text[i]:
-                sentences.append(j.__str__())
+        for k, v in self.link_text.items():
+            if type(v) != list:
+                sentences.append(v)
         return sentences
 
 
 print('linkgraph')
 import json
 
-a = LinkGraph()
-b = a.get_link_text()
-print(len(b))
-print(b)
+#a = LinkGraph()
+# b = a.get_link_text()
+# print(len(b))
+# print(b)
 # %%
 # import json
 # b = {1 : 1}

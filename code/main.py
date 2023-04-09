@@ -2,7 +2,7 @@ import numpy as np
 import openpyxl
 import pandas as pd
 
-from finder import Finder
+# from finder import Finder
 
 
 # from textparser import Paragraph
@@ -22,6 +22,12 @@ main()
 # print(pd.read_excel('../data_files/scores.xlsx')[0].max())
 # print(np.zeros(pd.read_excel(f'../data_files/level_2.xlsx').shape))
 # from linkgraph import LinkGraph
+
+
+
+#main()
+
+#from linkgraph import LinkGraph
 # sentence_embeddings = LinkGraph()
 # question = ''
 #

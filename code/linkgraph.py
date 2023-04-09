@@ -15,7 +15,6 @@ def get_on_depth(header, n):
             objects.append(get_on_depth(o, n - 1))
         return objects
 
-
 def get_text(link):
     import requests as rq
     from bs4 import BeautifulSoup
@@ -89,3 +88,18 @@ class LinkGraph:
         return sentences
 
 print('linkgraph')
+
+#import json
+
+#a = LinkGraph()
+# b = a.get_link_text()
+# print(len(b))
+# print(b)
+# %%
+# import json
+# b = {1 : 1}
+# try:
+#     with open('result.json', 'w') as fp:
+#         json.dump(b, fp)
+# finally:
+#     print("Ooops")

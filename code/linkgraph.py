@@ -3,6 +3,18 @@
 """
 from textparser import Header
 
+def get_on_depth(header, n):
+    if n == 1 or type(header) == Paragraph or len(header.objects) == 0:
+        res = header.__str__()
+        for i in range(n - 1):
+            res = [res]
+        return res
+    else:
+        objects = []
+        for o in header.objects:
+            objects.append(get_on_depth(o, n - 1))
+        return objects
+
 
 def get_text(link):
     import requests as rq
@@ -76,19 +88,4 @@ class LinkGraph:
                 sentences.append(v)
         return sentences
 
-
 print('linkgraph')
-import json
-
-#a = LinkGraph()
-# b = a.get_link_text()
-# print(len(b))
-# print(b)
-# %%
-# import json
-# b = {1 : 1}
-# try:
-#     with open('result.json', 'w') as fp:
-#         json.dump(b, fp)
-# finally:
-#     print("Ooops")

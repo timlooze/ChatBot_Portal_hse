@@ -1,63 +1,27 @@
 import numpy as np
+import openpyxl
 import pandas as pd
 
-# from finder import Finder
-
-import openpyxl
-
-from textparser import Paragraph
+from finder import Finder
 
 
-def get_on_depth(header, n):
-    if n == 1 or type(header) == Paragraph or len(header.objects) == 0:
-        res = header.__str__()
-        for i in range(n - 1):
-            res = [res]
-        return res
-    else:
-        objects = []
-        for o in header.objects:
-            objects.append(get_on_depth(o, n - 1))
-        return objects
-
+# from textparser import Paragraph
 
 def main():
-    # game = Finder()
-    # a = input()
-    from linkgraph import LinkGraph
-    sentence_embeddings = LinkGraph().get_link_text()
-    level_1 = []
-    level_2 = []
-    level_3 = []
-    level_4 = []
-    level_5 = []
-    for i in sentence_embeddings:
-        level_1.append(get_on_depth(i, 1))
-        level_2.append(get_on_depth(i, 2))
-        level_3.append(get_on_depth(i, 3))
-        level_4.append(get_on_depth(i, 4))
-        level_5.append(get_on_depth(i, 5))
-    t = 0
-    for i in level_2:
-        for j in i:
-            t += 1
-    print(t)
-    t = 0
-    for i in level_5:
-        for j in i:
-            for k in j:
-                for p in k:
-                    for m in p:
-                        t += 1
-    print(t)
-    levels = [level_1, level_2, level_3, level_4, level_5]
-    for i, level in enumerate(levels):
-        pd.DataFrame(level).to_excel(f'level_{i+1}.xlsx')
-
+    game = Finder()
+    a = input()
+    # a = pd.read_excel('../data_files/level_1.xlsx').reset_index(drop = True)
+    # a.columns = [['ind', 'text']]
+    b = np.array(game.guess(a))
+    b.reshape(37, -1)
+    pd.DataFrame(b).to_excel('../data_files/scores.xlsx')
+    print(b)
 
 main()
-
-from linkgraph import LinkGraph
+# print(pd.read_excel('../data_files/level_2.xlsx').iloc[np.argmax(pd.read_excel('../data_files/scores.xlsx')[0])])
+# print(pd.read_excel('../data_files/scores.xlsx')[0].max())
+# print(np.zeros(pd.read_excel(f'../data_files/level_2.xlsx').shape))
+# from linkgraph import LinkGraph
 # sentence_embeddings = LinkGraph()
 # question = ''
 #

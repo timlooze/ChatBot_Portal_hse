@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 class Header:
     def __init__(self, header_text):
         self.name = 'h'
-        self.header_text = header_text
+        self.header_text = header_text.replace('\\xa', ' ')
         self.objects = []
 
     def __str__(self):
@@ -56,8 +56,8 @@ class Image:
 class Paragraph:
     def __init__(self, tag, not_recursive_paragraph=True):
         self.name = tag.name
-        self.paragraph_text = tag.text
-        self.paragraph_text_with_artifacts = tag.text
+        self.paragraph_text = tag.text.replace('\\xa', ' ')
+        self.paragraph_text_with_artifacts = tag.text.replace('\\xa', ' ')
         self.images = []
         for i in tag.find_all(True, recurcive=False):
             if i.name == 'strong' and not_recursive_paragraph and i.text != '':
@@ -87,7 +87,7 @@ class Paragraph:
         self.paragraph_text_with_artifacts = self.paragraph_text_with_artifacts.replace('** **', '')
 
     def __str__(self):
-        return self.paragraph_text_with_artifacts
+        return self.paragraph_text
 
     def str_with_out_atrifacts(self):
         return self.paragraph_text

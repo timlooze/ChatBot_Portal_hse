@@ -14,6 +14,6 @@ def tokenize_data(text):
     snowball = SnowballStemmer(language="russian")
     filtered_tokens = []
     for token in tokens:
-        if token not in STOP_WORDS:
+        if token not in STOP_WORDS and len(token) > 2:
             filtered_tokens.append(snowball.stem(token))
     return filtered_tokens

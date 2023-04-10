@@ -3,29 +3,30 @@ import openpyxl
 import pandas as pd
 
 # from finder import Finder
-
+from test_generator import TestGeneration
 
 # from textparser import Paragraph
 
 def main():
-    game = Finder()
-    a = input()
+    # game = Finder()
+    # a = input()
     # a = pd.read_excel('../data_files/level_1.xlsx').reset_index(drop = True)
     # a.columns = [['ind', 'text']]
-    b = np.array(game.guess(a))
-    b.reshape(37, -1)
-    pd.DataFrame(b).to_excel('../data_files/scores.xlsx')
-    print(b)
+    # b = np.array(game.guess(a))
+    # b.reshape(37, -1)
+    # pd.DataFrame(b).to_excel('../data_files/scores.xlsx')
+    # print(b)
+    a = TestGeneration()
 
-main()
+# print(''.join(['d','g','g']))
+
+
 # print(pd.read_excel('../data_files/level_2.xlsx').iloc[np.argmax(pd.read_excel('../data_files/scores.xlsx')[0])])
 # print(pd.read_excel('../data_files/scores.xlsx')[0].max())
 # print(np.zeros(pd.read_excel(f'../data_files/level_2.xlsx').shape))
 # from linkgraph import LinkGraph
 
-
-
-#main()
+main()
 
 #from linkgraph import LinkGraph
 # sentence_embeddings = LinkGraph()

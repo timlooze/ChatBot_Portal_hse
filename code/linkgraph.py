@@ -1,11 +1,15 @@
 """
 Илья автоматизируй эту функцию
 """
-from textparser import Header
+from tokenize_data import tokenize_data
+from textparser import Header, Paragraph
 
-def get_on_depth(header, n):
+
+def get_on_depth(header, n, tokenize_flg=False):
     if n == 1 or type(header) == Paragraph or len(header.objects) == 0:
         res = header.__str__()
+        if tokenize_flg:
+            res = tokenize_data(res)
         for i in range(n - 1):
             res = [res]
         return res
@@ -14,6 +18,7 @@ def get_on_depth(header, n):
         for o in header.objects:
             objects.append(get_on_depth(o, n - 1))
         return objects
+
 
 def get_text(link):
     import requests as rq
@@ -26,7 +31,7 @@ def get_text(link):
     elif web.find('div', {'class': 'post__text'}) is None:
         return []
     elif len(web.find('div', {'class': 'post__text'}).find_all('div',
-                                                             {"class": "with-indent5 _builder builder--text"})) == 0:
+                                                               {"class": "with-indent5 _builder builder--text"})) == 0:
         soup = web.findAll('div', {'class': 'post__text'})
     else:
         soup = web.find('div', {'class': 'post__text'}).findAll('div',
@@ -87,11 +92,12 @@ class LinkGraph:
                 sentences.append(v)
         return sentences
 
+
 print('linkgraph')
 
-#import json
+# import json
 
-#a = LinkGraph()
+# a = LinkGraph()
 # b = a.get_link_text()
 # print(len(b))
 # print(b)

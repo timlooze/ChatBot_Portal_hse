@@ -22,14 +22,15 @@ class TestGeneration:
             list_element = ast.literal_eval(element)
             for i in range(len(list_element)):
                 self.recursion_down(list_element[i], indexes + [i])
-        finally:
+        except:
             for i in range(1, 20, 2):
                 words_list = re.sub('xa0', ' ', str(element))
-                text_example1 = random.choices(re.split(r'\W+', words_list), k=len(words_list) // i)
+                text_example1 = random.choices(re.split(r'\W+', words_list), k=len(words_list) // i + 1)
                 text_example = ''
                 for i in text_example1:
                     if len(i) > 3:
                         text_example += ' ' + i
-                self.test_list.append(text_example)
-                self.index_list.append(indexes)
+                if len(text_example) > 3:
+                    self.test_list.append(text_example)
+                    self.index_list.append(indexes)
             return

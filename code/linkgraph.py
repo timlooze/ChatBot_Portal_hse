@@ -16,7 +16,7 @@ def get_on_depth(header, n, tokenize_flg=False):
     else:
         objects = []
         for o in header.objects:
-            objects.append(get_on_depth(o, n - 1))
+            objects.append(get_on_depth(o, n - 1, tokenize_flg))
         return objects
 
 
@@ -87,10 +87,12 @@ class LinkGraph:
 
     def get_link_text(self):
         sentences = []
+        links = []
         for k, v in self.link_text.items():
             if type(v) != list:
                 sentences.append(v)
-        return sentences
+                links.append(k)
+        return links, sentences
 
 
 print('linkgraph')

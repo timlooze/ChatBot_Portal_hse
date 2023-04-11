@@ -1,8 +1,9 @@
 import pandas as pd
 
+
 def save_levels_to_excel():
     from linkgraph import LinkGraph, get_on_depth
-    sentence_embeddings = LinkGraph().get_link_text()
+    links, sentence_embeddings = LinkGraph().get_link_text()
     levels = []
     levels_tokenize = []
     for j in range(1, 6):
@@ -16,5 +17,4 @@ def save_levels_to_excel():
         pd.DataFrame(level).to_excel(f'../data_files/level_{i + 1}.xlsx')
     for i, level in enumerate(levels_tokenize):
         pd.DataFrame(level).to_excel(f'../data_files/levels_tokenize_{i + 1}.xlsx')
-
-save_levels_to_excel()
+    return levels, levels_tokenize, links

@@ -1,20 +1,19 @@
-import numpy.random as rd
-from sklearn.pipeline import Pipeline
-import pandas as pd
-import joblib
-import json
 import pickle
-from sklearn.neural_network import MLPClassifier
+
+import numpy.random as rd
+import pandas as pd
 from sklearn.feature_extraction.text import TfidfTransformer, CountVectorizer
+from sklearn.neural_network import MLPClassifier
+from sklearn.pipeline import Pipeline
 
 
 class Model:
     def __init__(self, loaded, levels=None, levels_tokenize=None, links=None):
         if loaded:
-            self.model = pickle.load(open("model.pickle", "rb"))
-            self.target_unmap = pickle.load(open("target_unmap.pickle", "rb"))
-            self.levels = pickle.load(open("levels.pickle", "rb"))
-            self.links = pickle.load(open("links.pickle", "rb"))
+            self.model = pickle.load(open("../tg_bot_files/model.pickle", "rb"))
+            self.target_unmap = pickle.load(open("../tg_bot_files/target_unmap.pickle", "rb"))
+            self.levels = pickle.load(open("../tg_bot_files/levels.pickle", "rb"))
+            self.links = pickle.load(open("../tg_bot_files/links.pickle", "rb"))
             return
         self.model = Pipeline([
             ('vect', CountVectorizer()),
@@ -57,8 +56,8 @@ class Model:
         return text, link
 
     def save(self):
-        pickle.dump(self.model, open("model.pickle", "wb"))
-        pickle.dump(self.target_unmap, open("target_unmap.pickle", "wb"))
-        pickle.dump(self.levels, open("levels.pickle", "wb"))
-        pickle.dump(self.links, open("links.pickle", "wb"))
+        pickle.dump(self.model, open("../tg_bot_files/model.pickle", "wb"))
+        pickle.dump(self.target_unmap, open("../tg_bot_files/target_unmap.pickle", "wb"))
+        pickle.dump(self.levels, open("../tg_bot_files/levels.pickle", "wb"))
+        pickle.dump(self.links, open("../tg_bot_files/links.pickle", "wb"))
 

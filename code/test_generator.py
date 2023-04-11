@@ -1,4 +1,7 @@
-import pandas as pd, re, ast, random
+import ast
+import pandas as pd
+import random
+import re
 from tqdm import tqdm
 
 
@@ -12,10 +15,7 @@ class TestGeneration:
         for i in tqdm(range(fl.shape[0])):
             for j in range(fl.shape[1]):
                 self.recursion_down(fl.iloc[i, j], [i, j])
-        pd.DataFrame({'text': self.test_list,
-                      'index': self.index_list}).to_excel(
-            '../data_files/train_set.xlsx')
-        # print(self.test_list)
+        pd.DataFrame({'text': self.test_list, 'index': self.index_list}).to_excel('../data_files/train_set.xlsx')
 
     def recursion_down(self, element, indexes):
         try:

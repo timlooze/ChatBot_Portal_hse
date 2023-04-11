@@ -1,6 +1,3 @@
-import requests as rq
-from bs4 import BeautifulSoup
-
 class Header:
     def __init__(self, header_text):
         self.name = 'h'
@@ -133,45 +130,3 @@ def parse(soup, text):
     if len(soup.find_all(True, recursive=False)) == 0:
         current_h1.append(Paragraph(soup))
     return current_h1
-
-print('textparser')
-# #
-# r = rq.get('https://portal.hse.ru/personalpages')
-# web = BeautifulSoup(r.text, 'html.parser')
-# soup = web.find('div', {"class": "post__text"})
-# personalpages = parse(soup, 'Персональные страницы')
-# #
-# r = rq.get('https://portal.hse.ru/helpsite')
-# web = BeautifulSoup(r.text, 'html.parser')
-# soup = web.find('div', {"class": "post__text"})
-# helpsite = parse(soup, 'Как осуществляется доступ к редактированию сайта на портале?')
-# #
-# r = rq.get('https://portal.hse.ru/progs')
-# web = BeautifulSoup(r.text, 'html.parser')
-# soup = web.find('div', {'class': 'post__text'}).find('div', {"class": "with-indent5 _builder builder--text"})
-# progs = parse(soup, 'Инструкция по редактированию нового сайта образовательной программы')
-# #
-# r = rq.get('https://portal.hse.ru/poll')
-# web = BeautifulSoup(r.text, 'html.parser')
-# soup = web.find('div', {'class': 'post__text'}).find_all('div', {"class": "with-indent5 _builder builder--text"})[1:]
-# poll = Header('Регистрационная форма / опрос')
-# for i in soup:
-#     temp = parse(i, 'Регистрационная форма / опрос')
-#     poll.objects += temp.objects
-# #
-# r = rq.get('https://portal.hse.ru/im')
-# web = BeautifulSoup(r.text, 'html.parser')
-# soup = web.find('div', {'class': 'post__text'}).find_all('div', {"class": "with-indent5 _builder builder--text"})
-# im = Header('Создание и редактирование сайта подразделения')
-# for i in soup:
-#     temp = parse(i, 'Создание и редактирование сайта подразделения')
-#     im.objects += temp.objects
-#
-# headers = [personalpages, helpsite, progs, poll, im]
-# for i in headers:
-#     for name, value in i.get_pairs():
-#         print(name)
-#         print(value)
-#         print()
-#     print()
-# print(1)

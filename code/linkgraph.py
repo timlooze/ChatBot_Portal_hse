@@ -1,5 +1,31 @@
-from tokenize_data import tokenize_data
-from textparser import Header, Paragraph
+from textparser import Header, Paragraph, tokenize_data
+from tqdm import tqdm
+import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+
+"""
+Function for saving data to excel file and middle work checkup
+"""
+
+
+def save_levels_to_excel():
+    links, sentence_embeddings = LinkGraph().get_link_text()
+    levels = []
+    levels_tokenize = []
+    for j in range(1, 6):
+        levels.append([])
+        levels_tokenize.append([])
+        for i in sentence_embeddings:
+            levels[j - 1].append(get_on_depth(i, j))
+            levels_tokenize[j - 1].append(get_on_depth(i, j, True))
+
+    for i, level in enumerate(levels):
+        pd.DataFrame(level).to_excel(f'../data_files/level_{i + 1}.xlsx')
+    for i, level in enumerate(levels_tokenize):
+        pd.DataFrame(level).to_excel(f'../data_files/levels_tokenize_{i + 1}.xlsx')
+    return levels, levels_tokenize, links
+
 
 """
 Function for searching down the structure of the graph of links to tokenize all the information
@@ -63,7 +89,7 @@ Class LinkGraph saves the structure of our site link and allows us to switch bet
 
 class LinkGraph:
     def __init__(self):
-        from tqdm import tqdm
+        # Taking the base link and other links from its text
         self.matrix = {}
         print('go_get_links')
         self.bs4_test('https://portal.hse.ru')
@@ -72,12 +98,9 @@ class LinkGraph:
             self.link_text[i] = get_text(i)
         print(self.matrix['https://portal.hse.ru'])
 
-    # Deletes rubbish tags like /en and others
+    # Recursive function for building matrix of connections between links
     def bs4_test(self, url):
-        import requests
-        from bs4 import BeautifulSoup
         color_mass = set()
-
         reqs = requests.get(url)
         soup = BeautifulSoup(reqs.text, 'html.parser')
 
@@ -99,7 +122,9 @@ class LinkGraph:
         for link in color_mass:
             if link not in self.matrix.keys():
                 self.bs4_test(link)
-    # Returns lists of links on web-sites and text of them
+        # Returns lists of links on web-sites and text on them
+
+    # Function for getting separated text and links out of the matrix
     def get_link_text(self):
         sentences = []
         links = []

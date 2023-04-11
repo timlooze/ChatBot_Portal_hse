@@ -1,3 +1,12 @@
+import nltk
+from nltk import word_tokenize, SnowballStemmer
+from nltk.corpus import stopwords
+
+nltk.download('stopwords')
+nltk.download('punkt')
+STOP_WORDS = stopwords.words("russian")
+
+
 class Header:
     def __init__(self, header_text):
         self.name = 'h'
@@ -23,10 +32,10 @@ class Header:
                     break
         return res
 
-    def str_with_out_atrifacts(self):
+    def str_with_out_artifacts(self):
         result = f'{self.header_text}\n'
         for i in self.objects:
-            result += f'{i.str_with_out_atrifacts()}\n'
+            result += f'{i.str_with_out_artifacts()}\n'
         return result
 
     def append(self, o):
@@ -39,8 +48,6 @@ class Header:
                 result += i.get_pairs()
             else:
                 result.append((self.header_text, str(i)))
-        if len(result) > 0 and len(result[-1]) != 2:
-            print(i, result[-1])
         return result
 
 
@@ -69,11 +76,11 @@ class Paragraph:
             elif i.name == 'img':
                 self.images.append(Image(i))
             elif i.name in ('p', 'div', 'li', 'ul'):
-                recurcive = Paragraph(i, False)
+                recursive = Paragraph(i, False)
                 self.paragraph_text_with_artifacts = self.paragraph_text_with_artifacts.replace(
-                    recurcive.paragraph_text_with_artifacts, recurcive.paragraph_text)
+                    recursive.paragraph_text_with_artifacts, recursive.paragraph_text)
                 self.paragraph_text_with_artifacts = self.paragraph_text_with_artifacts.replace(
-                    recurcive.paragraph_text, recurcive.paragraph_text_with_artifacts)
+                    recursive.paragraph_text, recursive.paragraph_text_with_artifacts)
         self.paragraph_text_with_artifacts = self.paragraph_text_with_artifacts.replace('  ', ' ')
         self.paragraph_text_with_artifacts = self.paragraph_text_with_artifacts.replace('  ', ' ')
         self.paragraph_text_with_artifacts = self.paragraph_text_with_artifacts.replace('  ', ' ')
@@ -86,7 +93,7 @@ class Paragraph:
     def __str__(self):
         return self.paragraph_text
 
-    def str_with_out_atrifacts(self):
+    def str_with_out_artifacts(self):
         return self.paragraph_text
 
 
@@ -130,3 +137,13 @@ def parse(soup, text):
     if len(soup.find_all(True, recursive=False)) == 0:
         current_h1.append(Paragraph(soup))
     return current_h1
+
+
+def tokenize_data(text):
+    tokens = word_tokenize(text, language="russian")
+    snowball = SnowballStemmer(language="russian")
+    filtered_tokens = []
+    for token in tokens:
+        if token not in STOP_WORDS and len(token) > 2:
+            filtered_tokens.append(snowball.stem(token))
+    return filtered_tokens

@@ -1,8 +1,9 @@
-"""
-Илья автоматизируй эту функцию
-"""
 from tokenize_data import tokenize_data
 from textparser import Header, Paragraph
+
+"""
+Function for searching down the structure of the graph of links to tokenize all the information
+"""
 
 
 def get_on_depth(header, n, tokenize_flg=False):
@@ -20,12 +21,19 @@ def get_on_depth(header, n, tokenize_flg=False):
         return objects
 
 
+"""
+Get_text allows us to convert html web classes to the text and save it
+"""
+
+
 def get_text(link):
     import requests as rq
     from bs4 import BeautifulSoup
     from textparser import parse
+    # Code takes the link of the site to parse
     r = rq.get(link)
     web = BeautifulSoup(r.text, 'html.parser')
+    # Deciding which class to parse
     if link == 'https://portal.hse.ru':
         soup = web.findAll('div', {'class': 'splash_preview__descr'})
     elif web.find('div', {'class': 'post__text'}) is None:
@@ -36,6 +44,7 @@ def get_text(link):
     else:
         soup = web.find('div', {'class': 'post__text'}).findAll('div',
                                                                 {"class": "with-indent5 _builder builder--text"})
+    # Filtering convert text
     soup = list(filter(lambda x: len(x.text) > 10, soup))
     if len(soup) == 0:
         return ""
@@ -45,6 +54,11 @@ def get_text(link):
     new_page = Header(page[0].header_text)
     new_page.objects = page
     return new_page
+
+
+"""
+Class LinkGraph saves the structure of our site link and allows us to switch between neighbour links
+"""
 
 
 class LinkGraph:
@@ -58,6 +72,7 @@ class LinkGraph:
             self.link_text[i] = get_text(i)
         print(self.matrix['https://portal.hse.ru'])
 
+    # Deletes rubbish tags like /en and others
     def bs4_test(self, url):
         import requests
         from bs4 import BeautifulSoup
@@ -84,7 +99,7 @@ class LinkGraph:
         for link in color_mass:
             if link not in self.matrix.keys():
                 self.bs4_test(link)
-
+    # Returns lists of links on web-sites and text of them
     def get_link_text(self):
         sentences = []
         links = []
@@ -93,21 +108,3 @@ class LinkGraph:
                 sentences.append(v)
                 links.append(k)
         return links, sentences
-
-
-print('linkgraph')
-
-# import json
-
-# a = LinkGraph()
-# b = a.get_link_text()
-# print(len(b))
-# print(b)
-# %%
-# import json
-# b = {1 : 1}
-# try:
-#     with open('result.json', 'w') as fp:
-#         json.dump(b, fp)
-# finally:
-#     print("Ooops")

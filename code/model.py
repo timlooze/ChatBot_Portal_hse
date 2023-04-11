@@ -54,7 +54,6 @@ class Model:
         pred = self.target_unmap[self.model.predict([X_test])[0]]
         text = self.levels[4][pred[0]][pred[1]][pred[2]][pred[3]][pred[4]]
         link = self.links[pred[0]]
-        print(pred, text, link, self.links)
         return text, link
 
     def save(self):

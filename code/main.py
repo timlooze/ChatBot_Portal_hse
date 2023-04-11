@@ -43,7 +43,7 @@ def main():
 
 
 def predict_new():
-    new_text = 'кто вносит данные на страницу аспиранта'
+    new_text = 'что делать'
     new_text = ' '.join(tokenize_data(new_text))
     model = Model(True)
     print(model.predict(new_text))

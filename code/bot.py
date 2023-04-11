@@ -1,7 +1,10 @@
 import telebot
-
 from model import Model
-from code.textparser import tokenize_data
+from textparser import tokenize_data
+
+"""
+Telegram bot function producing dialog with the user
+"""
 
 # Telegram bot token
 with open('TOKENS.txt') as f:
@@ -13,13 +16,15 @@ start_text = "Привет, я бот, который поможет найти 
 
 model = Model(True)
 
+
 # Bot conversation
 @bot.message_handler(commands=['start'])
 def send_start_keyboard(message, text=start_text):
     msg = bot.send_message(message.from_user.id, text=text)
     bot.register_next_step_handler(msg, callback_worker_start)
 
-# Returning
+
+# Returning answer for the question function
 def callback_worker_start(call):
     text = ' '.join(tokenize_data(call.text))
     res, link = model.predict(text)

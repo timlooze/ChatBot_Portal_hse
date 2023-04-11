@@ -4,6 +4,10 @@ import random
 import re
 from tqdm import tqdm
 
+"""
+Class for generating test for teaching and testing model
+"""
+
 
 class TestGeneration:
     def __init__(self):
@@ -17,6 +21,7 @@ class TestGeneration:
                 self.recursion_down(fl.iloc[i, j], [i, j])
         pd.DataFrame({'text': self.test_list, 'index': self.index_list}).to_excel('../data_files/train_set.xlsx')
 
+    # Recursive function goes down the structure
     def recursion_down(self, element, indexes):
         try:
             list_element = ast.literal_eval(element)
@@ -27,10 +32,15 @@ class TestGeneration:
                 words_list = re.sub('xa0', ' ', str(element))
                 text_example1 = random.choices(re.split(r'\W+', words_list), k=len(words_list) // i + 1)
                 text_example = ''
-                for i in text_example1:
-                    if len(i) > 3:
-                        text_example += ' ' + i
+                for j in text_example1:
+                    if len(j) > 3:
+                        text_example += ' ' + j
                 if len(text_example) > 3:
                     self.test_list.append(text_example)
                     self.index_list.append(indexes)
             return
+        # Create list of test and index of the answers in the matrix
+
+    # Function returns test
+    def get_test(self):
+        return self.index_list, self.test_list

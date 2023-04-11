@@ -1,12 +1,13 @@
-from code.textparser import tokenize_data
-from textparser import Header, Paragraph
+from textparser import Header, Paragraph, tokenize_data
 from tqdm import tqdm
 import requests
 from bs4 import BeautifulSoup
+import pandas as pd
 
 """
 Function for saving data to excel file and middle work checkup
 """
+
 
 def save_levels_to_excel():
     links, sentence_embeddings = LinkGraph().get_link_text()
@@ -24,6 +25,7 @@ def save_levels_to_excel():
     for i, level in enumerate(levels_tokenize):
         pd.DataFrame(level).to_excel(f'../data_files/levels_tokenize_{i + 1}.xlsx')
     return levels, levels_tokenize, links
+
 
 """
 Function for searching down the structure of the graph of links to tokenize all the information

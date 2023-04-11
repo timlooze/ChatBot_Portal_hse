@@ -8,6 +8,7 @@ from model import Model
 from savingtextdata import save_levels_to_excel
 from test_generator import TestGeneration
 
+
 # from textparser import Paragraph
 
 def main():
@@ -19,15 +20,16 @@ def main():
     # b.reshape(37, -1)
     # pd.DataFrame(b).to_excel('../data_files/scores.xlsx')
     # print(b)
-    #a = TestGeneration()
+    # a = TestGeneration()
     levels, levels_tokenize, links = save_levels_to_excel()
-    model = Model(levels, levels_tokenize, links)
+    model = Model(False, levels, levels_tokenize, links)
     X, y = model.getXy()
     model.fit(X, y)
     model.save()
     new_text = 'кто вносит данные на страницу аспиранта'
     new_text = ' '.join(tokenize_data(new_text))
     print(model.predict(new_text))
+
 
 # print(''.join(['d','g','g']))
 
@@ -37,9 +39,19 @@ def main():
 # print(np.zeros(pd.read_excel(f'../data_files/level_2.xlsx').shape))
 # from linkgraph import LinkGraph
 
-main()
+#main()
 
-#from linkgraph import LinkGraph
+
+def predict_new():
+    new_text = 'кто вносит данные на страницу аспиранта'
+    new_text = ' '.join(tokenize_data(new_text))
+    model = Model(True)
+    print(model.predict(new_text))
+
+
+predict_new()
+
+# from linkgraph import LinkGraph
 # sentence_embeddings = LinkGraph()
 # question = ''
 #

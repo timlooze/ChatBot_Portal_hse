@@ -1,8 +1,8 @@
 import pandas as pd
+from linkgraph import LinkGraph, get_on_depth
 
 
 def save_levels_to_excel():
-    from linkgraph import LinkGraph, get_on_depth
     links, sentence_embeddings = LinkGraph().get_link_text()
     levels = []
     levels_tokenize = []

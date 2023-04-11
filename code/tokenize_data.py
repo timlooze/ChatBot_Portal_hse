@@ -1,10 +1,10 @@
-from nltk.tokenize import word_tokenize
 import nltk
+from nltk.tokenize import word_tokenize
 from nltk.stem import SnowballStemmer
+from nltk.corpus import stopwords
 
 nltk.download('stopwords')
 nltk.download('punkt')
-from nltk.corpus import stopwords
 
 STOP_WORDS = stopwords.words("russian")
 

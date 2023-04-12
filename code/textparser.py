@@ -5,7 +5,7 @@ from nltk.corpus import stopwords
 nltk.download('stopwords')
 nltk.download('punkt')
 STOP_WORDS = stopwords.words("russian")
-
+print(STOP_WORDS)
 
 class Header:
     def __init__(self, header_text):
@@ -18,19 +18,6 @@ class Header:
         for i in self.objects:
             result += f'{str(i)}\n'
         return result
-
-    def p1(self):
-        res = 1
-        for i in self.objects:
-            if type(i) == Header:
-                res += i.p1()
-                break
-        if res == 1:
-            for i in self.objects:
-                if type(i) == Paragraph:
-                    res += 1
-                    break
-        return res
 
     def str_with_out_artifacts(self):
         result = f'{self.header_text}\n'
@@ -51,18 +38,11 @@ class Header:
         return result
 
 
-class Image:
-    def __init__(self, tag):
-        self.alt = tag.get('alt')
-        self.src = tag.get('src')
-
-
 class Paragraph:
     def __init__(self, tag, not_recursive_paragraph=True):
         self.name = tag.name
         self.paragraph_text = tag.text.replace('\\xa', ' ').replace('\\t', ' ').replace('\\n', ' ')
         self.paragraph_text_with_artifacts = tag.text.replace('\\xa', ' ').replace('\\t', ' ').replace('\\n', ' ')
-        self.images = []
         for i in tag.find_all(True, recurcive=False):
             if i.name == 'strong' and not_recursive_paragraph and i.text != '':
                 self.paragraph_text_with_artifacts = self.paragraph_text_with_artifacts.replace(
@@ -73,8 +53,6 @@ class Paragraph:
             elif i.name == 'em' and not_recursive_paragraph and i.text != '':
                 self.paragraph_text_with_artifacts = self.paragraph_text_with_artifacts.replace(
                     i.text, f' __{i.text}__ ')
-            elif i.name == 'img':
-                self.images.append(Image(i))
             elif i.name in ('p', 'div', 'li', 'ul'):
                 recursive = Paragraph(i, False)
                 self.paragraph_text_with_artifacts = self.paragraph_text_with_artifacts.replace(

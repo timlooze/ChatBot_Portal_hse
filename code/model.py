@@ -37,6 +37,7 @@ class Model:
                             elem = levels_tokenize[4][first][second][third][fourth][fifth]
                             if not elem:
                                 continue
+
                             self.target_map[(first, second, third, fourth, fifth)] = num
                             self.target_unmap[num] = (first, second, third, fourth, fifth)
                             num += 1

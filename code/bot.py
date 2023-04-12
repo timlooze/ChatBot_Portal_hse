@@ -23,7 +23,6 @@ def send_start(message, text=start_text):
     msg = BOT.send_message(message.from_user.id, text=text)
     BOT.register_next_step_handler(msg, callback_worker_start)
 
-
 # Returning answer for the question function
 def callback_worker_start(call):
     text = ' '.join(tokenize_data(call.text))

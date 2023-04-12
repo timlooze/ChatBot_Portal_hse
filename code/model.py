@@ -16,10 +16,7 @@ class Model:
     # Initializing test data and necessary tokens for the multiple model of prediction
     def __init__(self, loaded, levels=None, levels_tokenize=None, links=None):
         if loaded:
-            self.model = pickle.load(open("../tg_bot_files/model.pickle", "rb"))
-            self.target_unmap = pickle.load(open("../tg_bot_files/target_unmap.pickle", "rb"))
-            self.levels = pickle.load(open("../tg_bot_files/levels.pickle", "rb"))
-            self.links = pickle.load(open("../tg_bot_files/links.pickle", "rb"))
+            self.load_model()
             return
         self.model = Pipeline([
             ('vect', CountVectorizer()),
@@ -40,6 +37,7 @@ class Model:
                             elem = levels_tokenize[4][first][second][third][fourth][fifth]
                             if not elem:
                                 continue
+
                             self.target_map[(first, second, third, fourth, fifth)] = num
                             self.target_unmap[num] = (first, second, third, fourth, fifth)
                             num += 1
@@ -49,6 +47,12 @@ class Model:
         df = pd.DataFrame(pairs, columns=['data', 'target'])
         self.X = df.data
         self.y = df.target.map(self.target_map)
+
+    def load_model(self):
+        self.model = pickle.load(open("../tg_bot_files/model.pickle", "rb"))
+        self.target_unmap = pickle.load(open("../tg_bot_files/target_unmap.pickle", "rb"))
+        self.levels = pickle.load(open("../tg_bot_files/levels.pickle", "rb"))
+        self.links = pickle.load(open("../tg_bot_files/links.pickle", "rb"))
 
     # Returns data
     def getXY(self):
